@@ -1,8 +1,7 @@
-package com.group.petSitter.domain.pat;
+package com.group.petSitter.domain.pet;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.group.petSitter.domain.pet.Pet;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPet extends EntityPathBase<Pet> {
 
-    private static final long serialVersionUID = -1012245614L;
+    private static final long serialVersionUID = -897729010L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -28,7 +27,13 @@ public class QPet extends EntityPathBase<Pet> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Long> patId = createNumber("patId", Long.class);
+    public final NumberPath<Long> petId = createNumber("petId", Long.class);
+
+    public final StringPath petName = createString("petName");
+
+    public final com.group.petSitter.domain.petSitter.QPetSitter petSitter;
+
+    public final EnumPath<PetStatus> status = createEnum("status", PetStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -53,6 +58,7 @@ public class QPet extends EntityPathBase<Pet> {
 
     public QPet(Class<? extends Pet> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.petSitter.QPetSitter(forProperty("petSitter")) : null;
         this.user = inits.isInitialized("user") ? new com.group.petSitter.domain.user.QUser(forProperty("user")) : null;
     }
 

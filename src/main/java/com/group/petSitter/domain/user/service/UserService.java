@@ -27,8 +27,6 @@ public class UserService {
                 User user = User.builder()
                     .nickname(registerUserCommand.nickname())
                     .email(registerUserCommand.email())
-                    .provider(registerUserCommand.provider())
-                    .providerId(registerUserCommand.providerId())
                     .userRole(registerUserCommand.userRole())
                     .userGrade(registerUserCommand.userGrade())
                     .build();
