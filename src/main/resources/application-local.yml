@@ -1,0 +1,12 @@
+db:
+  url: jdbc:postgresql://bmartdb.c50c8lf82noq.ap-northeast-2.rds.amazonaws.com:5432/postgres
+  username: devwqc
+  password: jbcibal777
+
+naver:
+  client-id: HMIlXoynZWzBRRRHEx2K
+  client-secret: Y6Cp1dpJRY
+
+kakao:
+  client-id: d26c56afcbdcef1508d4034b995bf8c2
+  client-secret: qlmd3YlPxHMxWre0CQ87SbLX9TVbLQMi
