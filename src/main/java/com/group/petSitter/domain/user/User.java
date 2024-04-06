@@ -1,5 +1,6 @@
 package com.group.petSitter.domain.user;
 
+import com.group.petSitter.domain.order.Order;
 import com.group.petSitter.domain.user.exception.InvalidUserException;
 import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserGrade userGrade;
+
+    @OneToMany(mappedBy = "user")
+    private Order order;
 
     @Builder
     public User(
