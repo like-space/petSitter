@@ -1,5 +1,7 @@
 package com.group.petSitter.domain.user;
 
+import com.group.petSitter.domain.pet.Pet;
+import com.group.petSitter.domain.petSitter.PetSitter;
 import com.group.petSitter.domain.user.exception.InvalidUserException;
 import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -8,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -47,6 +51,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserGrade userGrade;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Pet> pet = new ArrayList<>();
 
     @Builder
     public User(
