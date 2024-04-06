@@ -1,6 +1,8 @@
 package com.group.petSitter.domain.petSitter;
 
 import com.group.petSitter.domain.pet.Pet;
+import com.group.petSitter.domain.pet.PetStatus;
+import com.group.petSitter.domain.review.Review;
 import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -29,8 +31,11 @@ public class PetSitter extends BaseTimeEntity {
     @Column
     private String address;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PetStatus status = PetStatus.PENDING;
 
-
-
+    @OneToMany(mappedBy = "petSitter", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
 }

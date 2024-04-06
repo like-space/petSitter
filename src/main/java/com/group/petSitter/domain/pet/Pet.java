@@ -23,14 +23,8 @@ public class Pet extends BaseTimeEntity {
     @Column
     private String petName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PetStatus status = PetStatus.PENDING;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_sitter_id")
     private PetSitter petSitter;
-
-
 
 }
