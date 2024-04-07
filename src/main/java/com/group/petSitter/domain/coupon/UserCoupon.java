@@ -18,7 +18,7 @@ public class UserCoupon extends BaseTimeEntity {
     private Long userCouponId;
 
     @Column(nullable = false)
-    private boolean isUsed = false;
+    private boolean isUsed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -27,6 +27,12 @@ public class UserCoupon extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
+
+    public UserCoupon(User user, Coupon coupon) {
+        this.user = user;
+        this.coupon = coupon;
+        isUsed = false;
+    }
 
     public int getDiscount() {
         return this.getCoupon().getDiscount();

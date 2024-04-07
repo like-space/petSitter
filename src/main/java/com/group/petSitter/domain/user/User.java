@@ -52,11 +52,11 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserGrade userGrade;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Order order;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Pet> pet = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Order> orderList;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Pet> petList = new ArrayList<>();
 
     @Builder
     public User(
