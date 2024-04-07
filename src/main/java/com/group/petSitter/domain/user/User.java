@@ -52,12 +52,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserGrade userGrade;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Order> orderList;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Pet> petList = new ArrayList<>();
-
     @Builder
     public User(
         final String nickname,

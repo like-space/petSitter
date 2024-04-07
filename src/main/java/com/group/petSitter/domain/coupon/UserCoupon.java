@@ -35,7 +35,7 @@ public class UserCoupon extends BaseTimeEntity {
     }
 
     public int getDiscount() {
-        return this.getCoupon().getDiscount();
+         return this.getCoupon().getDiscount();
     }
 
     public void use() {
