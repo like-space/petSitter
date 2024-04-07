@@ -1,5 +1,6 @@
 package com.group.petSitter.domain.order;
 
+import com.group.petSitter.domain.payment.Payment;
 import com.group.petSitter.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,7 +13,9 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -24,6 +27,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Payment payment;
 
     private String uuid = UUID.randomUUID().toString();
 
