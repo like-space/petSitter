@@ -1,9 +1,9 @@
 package com.group.petSitter.domain.user.controller;
 
-import com.prgrms.nabmart.base.BaseControllerTest;
-import com.prgrms.nabmart.domain.user.User;
-import com.prgrms.nabmart.domain.user.service.response.FindUserDetailResponse;
-import com.prgrms.nabmart.domain.user.support.UserFixture;
+import com.group.petSitter.base.BaseControllerTest;
+import com.group.petSitter.domain.user.User;
+import com.group.petSitter.domain.user.service.response.FindUserDetailResponse;
+import com.group.petSitter.domain.user.support.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

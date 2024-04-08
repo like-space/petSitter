@@ -21,18 +21,20 @@ public class UserService {
     public RegisterUserResponse getOrRegisterUser(final RegisterUserCommand registerUserCommand) {
 
         User findUser = userRepository.findByProviderAndProviderId(
-                registerUserCommand.provider(),
-                registerUserCommand.providerId())
-            .orElseGet(() -> {
-                User user = User.builder()
-                    .nickname(registerUserCommand.nickname())
-                    .email(registerUserCommand.email())
-                    .userRole(registerUserCommand.userRole())
-                    .userGrade(registerUserCommand.userGrade())
-                    .build();
-                userRepository.save(user);
-                return user;
-            });
+                        registerUserCommand.provider(),
+                        registerUserCommand.providerId())
+                .orElseGet(() -> {
+                    User user = User.builder()
+                            .nickname(registerUserCommand.nickname())
+                            .email(registerUserCommand.email())
+                            .provider(registerUserCommand.provider())
+                            .providerId(registerUserCommand.providerId())
+                            .userRole(registerUserCommand.userRole())
+                            .userGrade(registerUserCommand.userGrade())
+                            .build();
+                    userRepository.save(user);
+                    return user;
+                });
 
         return RegisterUserResponse.from(findUser);
     }
