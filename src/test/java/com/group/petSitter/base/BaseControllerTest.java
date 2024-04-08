@@ -2,6 +2,7 @@ package com.group.petSitter.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.petSitter.domain.coupon.service.CouponService;
+import com.group.petSitter.domain.pet.service.PetService;
 import com.group.petSitter.domain.user.service.UserService;
 import com.group.petSitter.global.auth.jwt.JwtAuthenticationProvider;
 import com.group.petSitter.global.auth.jwt.filter.JwtAuthenticationFilter;
@@ -48,7 +49,12 @@ public abstract class BaseControllerTest {
     protected CouponService couponService;
 
     @MockBean
+    protected PetService petService;
+
+    @MockBean
     protected OAuthRestClient oAuthRestClient;
+
+
 
     protected static final String AUTHORIZATION = "Authorization";
 

@@ -16,8 +16,6 @@ public record RegisterCouponRequest(
     @NotNull(message = "촤소 주문 금액은 필수 입력 항목입니다.")
     Integer discount,
 
-    @PositiveOrZero(message = "최소 주문 금액은 0 이상이어야 합니다.")
-    @NotNull(message = "촤소 주문 금액은 필수 입력 항목입니다.")
     String description,
 
     @NotNull(message = "쿠폰 종료일은 필수 입력 항목입니다.")
