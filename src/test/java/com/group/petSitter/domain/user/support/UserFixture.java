@@ -1,11 +1,11 @@
 package com.group.petSitter.domain.user.support;
 
-import com.prgrms.nabmart.domain.user.User;
-import com.prgrms.nabmart.domain.user.UserGrade;
-import com.prgrms.nabmart.domain.user.UserRole;
-import com.prgrms.nabmart.domain.user.service.request.FindUserCommand;
-import com.prgrms.nabmart.domain.user.service.request.RegisterUserCommand;
-import com.prgrms.nabmart.domain.user.service.response.FindUserDetailResponse;
+import com.group.petSitter.domain.user.User;
+import com.group.petSitter.domain.user.UserGrade;
+import com.group.petSitter.domain.user.UserRole;
+import com.group.petSitter.domain.user.service.request.FindUserCommand;
+import com.group.petSitter.domain.user.service.request.RegisterUserCommand;
+import com.group.petSitter.domain.user.service.response.FindUserDetailResponse;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class UserFixture {

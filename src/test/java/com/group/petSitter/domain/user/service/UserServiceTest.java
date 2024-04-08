@@ -1,12 +1,12 @@
 package com.group.petSitter.domain.user.service;
 
-import com.prgrms.nabmart.domain.user.User;
-import com.prgrms.nabmart.domain.user.exception.NotFoundUserException;
-import com.prgrms.nabmart.domain.user.repository.UserRepository;
-import com.prgrms.nabmart.domain.user.service.request.FindUserCommand;
-import com.prgrms.nabmart.domain.user.service.request.RegisterUserCommand;
-import com.prgrms.nabmart.domain.user.service.response.FindUserDetailResponse;
-import com.prgrms.nabmart.domain.user.support.UserFixture;
+import com.group.petSitter.domain.user.User;
+import com.group.petSitter.domain.user.exception.NotFoundUserException;
+import com.group.petSitter.domain.user.repository.UserRepository;
+import com.group.petSitter.domain.user.service.request.FindUserCommand;
+import com.group.petSitter.domain.user.service.request.RegisterUserCommand;
+import com.group.petSitter.domain.user.service.response.FindUserDetailResponse;
+import com.group.petSitter.domain.user.support.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
