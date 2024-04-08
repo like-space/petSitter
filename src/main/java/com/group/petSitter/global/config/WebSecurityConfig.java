@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                 antMatcher(GET, "/api/v1/notifications/**"),
                 antMatcher(POST, "/oauth2/authorization/**"),
                 antMatcher(POST, "/api/v1/riders/**"),
-                antMatcher(GET, "/api/v1/categories/**"),
+                antMatcher(GET, "/api/v1/pets/**"),
                 antMatcher(GET, "/api/v1/items/**"),
                 antMatcher(GET, "/api/v1/events/**"),
                 antMatcher(GET, "/docs/**"));
@@ -80,6 +80,7 @@ public class WebSecurityConfig {
     private RequestMatcher[] requestHasRoleUser() {
         List<RequestMatcher> requestMatchers = List.of(
                 antMatcher("/api/v1/users/me"),
+                antMatcher("/api/v1/pets/**"),
                 antMatcher("/api/v1/cart-items/**"),
                 antMatcher("/api/v1/my-cart-items"),
                 antMatcher("/api/v1/likes/**"),

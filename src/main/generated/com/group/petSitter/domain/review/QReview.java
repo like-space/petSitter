@@ -1,4 +1,4 @@
-package com.group.petSitter.domain.pet;
+package com.group.petSitter.domain.review;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,52 +11,52 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QPet is a Querydsl query type for Pet
+ * QReview is a Querydsl query type for Review
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QPet extends EntityPathBase<Pet> {
+public class QReview extends EntityPathBase<Review> {
 
-    private static final long serialVersionUID = -897729010L;
+    private static final long serialVersionUID = -482544980L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QPet pet = new QPet("pet");
+    public static final QReview review = new QReview("review");
 
     public final com.group.petSitter.global.QBaseTimeEntity _super = new com.group.petSitter.global.QBaseTimeEntity(this);
+
+    public final StringPath content = createString("content");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Long> petId = createNumber("petId", Long.class);
-
-    public final StringPath petName = createString("petName");
-
     public final com.group.petSitter.domain.petSitter.QPetSitter petSitter;
 
-    public final EnumPath<PetStatus> petStatus = createEnum("petStatus", PetStatus.class);
+    public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
+
+    public final StringPath title = createString("title");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public final com.group.petSitter.domain.user.QUser user;
 
-    public QPet(String variable) {
-        this(Pet.class, forVariable(variable), INITS);
+    public QReview(String variable) {
+        this(Review.class, forVariable(variable), INITS);
     }
 
-    public QPet(Path<? extends Pet> path) {
+    public QReview(Path<? extends Review> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QPet(PathMetadata metadata) {
+    public QReview(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QPet(PathMetadata metadata, PathInits inits) {
-        this(Pet.class, metadata, inits);
+    public QReview(PathMetadata metadata, PathInits inits) {
+        this(Review.class, metadata, inits);
     }
 
-    public QPet(Class<? extends Pet> type, PathMetadata metadata, PathInits inits) {
+    public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.petSitter.QPetSitter(forProperty("petSitter")) : null;
         this.user = inits.isInitialized("user") ? new com.group.petSitter.domain.user.QUser(forProperty("user")) : null;

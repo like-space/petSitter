@@ -52,6 +52,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserGrade userGrade;
 
+    @OneToMany(mappedBy = "user")
+    private List<Pet> pets = new ArrayList<>();
+
     @Builder
     public User(
         final String nickname,

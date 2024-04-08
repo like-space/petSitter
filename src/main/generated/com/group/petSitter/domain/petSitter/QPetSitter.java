@@ -35,6 +35,10 @@ public class QPetSitter extends EntityPathBase<PetSitter> {
 
     public final NumberPath<Long> petSitterId = createNumber("petSitterId", Long.class);
 
+    public final ListPath<com.group.petSitter.domain.review.Review, com.group.petSitter.domain.review.QReview> reviews = this.<com.group.petSitter.domain.review.Review, com.group.petSitter.domain.review.QReview>createList("reviews", com.group.petSitter.domain.review.Review.class, com.group.petSitter.domain.review.QReview.class, PathInits.DIRECT2);
+
+    public final EnumPath<com.group.petSitter.domain.pet.PetStatus> status = createEnum("status", com.group.petSitter.domain.pet.PetStatus.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
