@@ -4,6 +4,9 @@ import com.group.petSitter.domain.coupon.Coupon;
 import com.group.petSitter.domain.coupon.UserCoupon;
 import com.group.petSitter.domain.coupon.repository.CouponRepository;
 import com.group.petSitter.domain.coupon.repository.UserCouponRepository;
+import com.group.petSitter.domain.coupon.service.request.RegisterCouponCommand;
+import com.group.petSitter.domain.coupon.support.CouponFixture;
+import com.group.petSitter.domain.coupon.support.UserCouponFixture;
 import com.group.petSitter.domain.user.User;
 import com.group.petSitter.domain.user.repository.UserRepository;
 import com.group.petSitter.domain.user.support.UserFixture;
@@ -36,9 +39,9 @@ class CouponServiceTest {
     @Mock
     private UserCouponRepository userCouponRepository;
 
-    User user;
-    Coupon coupon;
-    UserCoupon userCoupon;
+    User givenUser;
+    Coupon givenCoupon;
+    UserCoupon givenUserCoupon;
 
     @BeforeEach
     void setUp() {
