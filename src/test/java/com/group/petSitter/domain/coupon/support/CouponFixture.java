@@ -17,7 +17,7 @@ public class CouponFixture {
     private static final int DISCOUNT = 10000;
     private static final String DESCRIPTION = "쿠폰설명";
     private static final int MIN_ORDER_PRICE = 1000;
-    private static final LocalDate END_AT = LocalDate.parse("2023-12-31");
+    private static final LocalDate END_AT = LocalDate.parse("2024-12-31");
 
     public static Coupon coupon() {
         return Coupon

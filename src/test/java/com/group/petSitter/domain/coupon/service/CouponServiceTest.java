@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,9 +61,7 @@ class CouponServiceTest {
         @DisplayName("성공")
         void success() {
             // Given
-            Coupon coupon = givenCoupon;
-            when(couponRepository.save(any(Coupon.class))).thenReturn(
-                    coupon);
+            given(couponRepository.save(any(Coupon.class))).willReturn(givenCoupon);
 
             // When
             couponService.createCoupon(registerCouponCommand);
