@@ -1,7 +1,7 @@
 package com.group.petSitter.domain.user;
 
-import com.prgrms.nabmart.domain.user.User.UserBuilder;
-import com.prgrms.nabmart.domain.user.exception.InvalidUserException;
+import com.group.petSitter.domain.user.User.UserBuilder;
+import com.group.petSitter.domain.user.exception.InvalidUserException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
