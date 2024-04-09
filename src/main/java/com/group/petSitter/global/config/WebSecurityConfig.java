@@ -70,7 +70,6 @@ public class WebSecurityConfig {
                 antMatcher(GET, "/api/v1/notifications/**"),
                 antMatcher(POST, "/oauth2/authorization/**"),
                 antMatcher(POST, "/api/v1/riders/**"),
-                antMatcher(GET, "/api/v1/pets/**"),
                 antMatcher(GET, "/api/v1/items/**"),
                 antMatcher(GET, "/api/v1/events/**"),
                 antMatcher(GET, "/docs/**"));

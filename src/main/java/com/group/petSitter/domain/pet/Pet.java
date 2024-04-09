@@ -41,4 +41,9 @@ public class Pet extends BaseTimeEntity {
         this.petSitter = petSitter;
         this.petStatus = petStatus;
     }
+
+    public void updatePet(String petName){
+        this.petName = petName;
+    }
+
 }
