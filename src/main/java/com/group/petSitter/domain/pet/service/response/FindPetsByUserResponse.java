@@ -14,16 +14,15 @@ public record FindPetsByUserResponse(
                 petList.stream()
                         .map(FindPetResponse::from)
                         .collect(Collectors.toList());
+
         return new FindPetsByUserResponse(FindPetsResponse);
     }
 
     public record FindPetResponse(String petName){
-
         public static FindPetResponse from(Pet pet)
         {
             return new FindPetResponse(pet.getPetName());
         }
-
     }
 
 }
