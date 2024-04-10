@@ -28,18 +28,22 @@ public class PetController {
     private final PetService petService;
 
     @PostMapping
-    public ResponseEntity<Void> savePet(
+    public ResponseEntity<CommonResponse> savePet(
             @LoginUser Long user_id,
             @Valid @RequestBody CreatePetRequest createPetRequest
-    )
-    {
-        petService.savePet(CreatePetCommand.of(user_id,createPetRequest));
+    ) {
+        FindPetsByUserResponse findPetsByUserResponse = petService.savePet(CreatePetCommand.of(user_id, createPetRequest));
 
-        URI location = URI.create(BASE_URI + "/myPets/");
+        URI location = URI.create(BASE_URI + "/myPets");
 
         return ResponseEntity
-                .created(location)
-                .build();
+                .status(HttpStatus.CREATED)
+                .body(
+                    CommonResponse.builder()
+                    .response(findPetsByUserResponse)
+                    .success(true)
+                    .build()
+                );
     }
 
     @GetMapping("/{petId}")
@@ -50,10 +54,12 @@ public class PetController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .response(petDetailResponse)
-                        .success(true)
-                        .build());
+                .body(
+                    CommonResponse.builder()
+                    .response(petDetailResponse)
+                    .success(true)
+                    .build()
+                );
     }
 
     @PatchMapping("/{petId}")
@@ -65,23 +71,21 @@ public class PetController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .response(findPetDetailResponse)
-                        .success(true)
-                        .build());
+                .body(
+                    CommonResponse.builder()
+                    .response(findPetDetailResponse)
+                    .success(true)
+                    .build()
+                );
     }
 
     @DeleteMapping("/{petId}")
-    public ResponseEntity<CommonResponse> deletePet(
+    public ResponseEntity<Void> deletePet(
             @PathVariable("petId") Long petId
     ){
        petService.deletePet(petId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .success(true)
-                        .build());
+       return ResponseEntity.noContent().build();
 
     }
 
@@ -93,10 +97,12 @@ public class PetController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(CommonResponse.builder()
+                .body(
+                        CommonResponse.builder()
                         .response(petsByUserResponse)
                         .success(true)
-                        .build());
+                        .build()
+                );
     }
 
 }

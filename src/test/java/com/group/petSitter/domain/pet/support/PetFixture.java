@@ -26,11 +26,16 @@ public class PetFixture {
     private static final PetStatus PET_STATUS = PetStatus.PENDING;
 
     public static Pet pet(User user){
-        return Pet.builder()
+        ReflectionTestUtils.setField(user, "userId", 1L);
+
+        Pet pet = Pet.builder()
                 .petName(petName)
                 .petStatus(PET_STATUS)
                 .user(user)
                 .build();
+        ReflectionTestUtils.setField(pet, "petId", 1L);
+
+        return pet;
     }
 
     public static CreatePetRequest createPetRequest(){
@@ -42,8 +47,8 @@ public class PetFixture {
         return new UpdatePetRequest(petName);
     }
 
-    public static CreatePetCommand createPetCommand(){
-        return CreatePetCommand.of(user().getUserId(),createPetRequest());
+    public static CreatePetCommand createPetCommand(Long user_id){
+        return CreatePetCommand.of(user_id,createPetRequest());
     }
 
     public static FindPetsByUserCommand findPetsByUserCommand(Long user_id){

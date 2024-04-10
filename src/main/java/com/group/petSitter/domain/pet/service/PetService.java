@@ -25,11 +25,10 @@ import java.util.stream.Collectors;
 public class PetService {
 
     private final PetRepository petRepository;
-
     private final UserRepository userRepository;
 
     @Transactional
-    public Long savePet(
+    public FindPetsByUserResponse savePet(
             CreatePetCommand createPetCommand
     ){
         User findUser = findUserByUserId(createPetCommand.user_id());
@@ -48,7 +47,7 @@ public class PetService {
 
         petRepository.saveAll(pets);
 
-        return findUser.getUserId();
+        return FindPetsByUserResponse.from(pets);
     }
 
     @Transactional
