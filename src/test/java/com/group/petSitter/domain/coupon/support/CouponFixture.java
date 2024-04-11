@@ -5,6 +5,8 @@ import com.group.petSitter.domain.coupon.UserCoupon;
 import com.group.petSitter.domain.coupon.service.request.RegisterCouponCommand;
 import com.group.petSitter.domain.coupon.service.response.FindCouponsResponse;
 import com.group.petSitter.domain.coupon.service.response.FindCouponsResponse.FindCouponResponse;
+import com.group.petSitter.domain.coupon.service.response.FindIssuedCouponsResponse;
+import com.group.petSitter.domain.coupon.service.response.FindIssuedCouponsResponse.FindIssuedCouponResponse;
 import com.group.petSitter.domain.user.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -41,13 +43,13 @@ public class CouponFixture {
         List<FindCouponResponse> couponList = List.of(findCouponResponse);
         return new FindCouponsResponse(couponList);
     }
-//
-//    public static FindIssuedCouponsResponse findIssuedCouponsResponse() {
-//        FindIssuedCouponResponse findIssuedCouponResponse = new FindIssuedCouponResponse(
-//            1L, NAME, DESCRIPTION, DISCOUNT, MIN_ORDER_PRICE, END_AT);
-//        List<FindIssuedCouponResponse> issuedCouponList = List.of(findIssuedCouponResponse);
-//        return new FindIssuedCouponsResponse(issuedCouponList);
-//    }
+
+    public static FindIssuedCouponsResponse findIssuedCouponsResponse() {
+        FindIssuedCouponResponse findIssuedCouponResponse = new FindIssuedCouponResponse(
+                1L, NAME, DESCRIPTION, DISCOUNT, END_AT);
+        List<FindIssuedCouponResponse> issuedCouponList = List.of(findIssuedCouponResponse);
+        return new FindIssuedCouponsResponse(issuedCouponList);
+    }
 
     public static UserCoupon userCoupon(User user) {
         return new UserCoupon(user, coupon());
