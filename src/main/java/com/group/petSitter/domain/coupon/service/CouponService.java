@@ -64,6 +64,7 @@ public class CouponService {
         validateAlreadyIssuedCoupon(findUser, findCoupon);
 
         UserCoupon userCoupon = new UserCoupon(findUser, findCoupon);
+
         return userCouponRepository.save(userCoupon).getUserCouponId();
     }
 
@@ -71,8 +72,7 @@ public class CouponService {
     public FindIssuedCouponsResponse findIssuedCoupons(Long userId) {
         User findUser = findUserByUserId(userId);
         List<UserCoupon> findUserCoupons = userCouponRepository.findByUserAndIsUsedAndCouponEndAtAfter(
-            findUser, false,
-            LocalDate.now());
+            findUser, false, LocalDate.now());
 
         return FindIssuedCouponsResponse.from(findUserCoupons);
     }
