@@ -86,14 +86,13 @@ public class PetController {
     ){
         FindPetsByUserResponse petsByUserResponse = petService.findPetsByUserResponse(userId);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                        CommonResponse.builder()
-                        .response(petsByUserResponse)
-                        .success(true)
-                        .build()
-                );
+
+        CommonResponse commonResponse = CommonResponse.builder()
+                .response(petsByUserResponse)
+                .success(true)
+                .build();
+
+        return new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }
 
 }
