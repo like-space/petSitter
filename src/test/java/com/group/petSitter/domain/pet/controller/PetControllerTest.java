@@ -32,7 +32,7 @@ public class PetControllerTest extends BaseControllerTest {
     class SavePet {
 
         @Test
-        @DisplayName("성공")
+        @DisplayName("등록성공")
         void savePet() throws Exception {
             // Given
             User user = UserFixture.user();
@@ -73,8 +73,9 @@ public class PetControllerTest extends BaseControllerTest {
             pet.updatePet("치즈");
 
             FindPetDetailResponse findPetDetailResponse = FindPetDetailResponse.from(pet);
+
             //given
-            when(petService.updatePet(anyLong(),any())).thenReturn(findPetDetailResponse);
+            when(petService.updatePet(any())).thenReturn(findPetDetailResponse);
 
             // when
             ResultActions result = mockMvc.perform(
@@ -99,13 +100,11 @@ public class PetControllerTest extends BaseControllerTest {
     @DisplayName("반려동물 삭제하는 api 호출시")
     class DeletePet {
 
-        @DisplayName("수정성공")
+        @DisplayName("삭제성공")
         @Test
         void deletePet() throws Exception{
-
             User user = UserFixture.user();
             Pet pet = pet(user);
-            //given
 
             // when
             ResultActions result = mockMvc.perform(
@@ -122,7 +121,6 @@ public class PetControllerTest extends BaseControllerTest {
                             )
                     ));
         }
-
     }
 }
 

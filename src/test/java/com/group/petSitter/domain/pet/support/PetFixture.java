@@ -67,8 +67,8 @@ public class PetFixture {
         return FindPetDetailResponse.from(pet);
     }
 
-    public static UpdatePetCommand updatePetCommand(UpdatePetRequest updatePetRequest){
-        return new UpdatePetCommand(updatePetRequest);
+    public static UpdatePetCommand updatePetCommand(Long petId, UpdatePetRequest updatePetRequest){
+        return new UpdatePetCommand(petId, updatePetRequest.petName());
     }
 
 }

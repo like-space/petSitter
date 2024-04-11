@@ -82,11 +82,11 @@ public class PetServiceTest {
         void updatePet(){
             //given
             UpdatePetRequest updatePetRequest = updatePetRequest("치즈");
-            UpdatePetCommand updatePetCommand = updatePetCommand(updatePetRequest);
+            UpdatePetCommand updatePetCommand = updatePetCommand(pet.getPetId(),updatePetRequest);
 
             //when
             when(petRepository.findPetByPetId(any())).thenReturn(pet);
-            FindPetDetailResponse findPetDetailResponse = petService.updatePet(pet.getPetId(), updatePetCommand);
+            FindPetDetailResponse findPetDetailResponse = petService.updatePet(updatePetCommand);
 
             //then
             assertThat(findPetDetailResponse.petName()).isEqualTo(pet.getPetName());
