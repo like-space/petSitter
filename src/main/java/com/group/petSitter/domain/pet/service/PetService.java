@@ -34,8 +34,7 @@ public class PetService {
         User findUser = findUserByUserId(createPetCommand.user_id());
 
         List<Pet> pets = createPetCommand
-                .createPetRequest()
-                .createPetsRequest()
+                .createPetInfo()
                 .stream()
                 .map(item ->
                         Pet.builder()
@@ -59,15 +58,12 @@ public class PetService {
 
     @Transactional
     public FindPetDetailResponse updatePet(
-            Long petId,
             UpdatePetCommand updatePetCommand
     ){
-        Pet pet = petRepository.findPetByPetId(petId);
-
-        UpdatePetRequest updatePetRequest = updatePetCommand.updatePetRequest();
+        Pet pet = petRepository.findPetByPetId(updatePetCommand.petId());
 
         pet.updatePet(
-                updatePetRequest.petName()
+                updatePetCommand.petName()
         );
 
         return FindPetDetailResponse.from(pet);
