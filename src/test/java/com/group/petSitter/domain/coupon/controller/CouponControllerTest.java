@@ -4,6 +4,7 @@ import com.group.petSitter.base.BaseControllerTest;
 import com.group.petSitter.domain.coupon.service.request.RegisterCouponCommand;
 import com.group.petSitter.domain.coupon.service.request.RegisterUserCouponCommand;
 import com.group.petSitter.domain.coupon.service.response.FindCouponsResponse;
+import com.group.petSitter.domain.coupon.service.response.FindIssuedCouponsResponse;
 import com.group.petSitter.domain.coupon.support.CouponFixture;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -24,7 +26,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @Slf4j
 class CouponControllerTest extends BaseControllerTest {
@@ -113,23 +114,55 @@ class CouponControllerTest extends BaseControllerTest {
 
             //when
             ResultActions resultActions = mockMvc.perform(
-                    post("/api/v1/my-coupons/{couponId}", couponId)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(registerUserCouponCommand))
-                            .header(AUTHORIZATION, accessToken));
+                post("/api/v1/my-coupons/{couponId}", couponId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(registerUserCouponCommand))
+                    .header(AUTHORIZATION, accessToken));
 
             //then
             resultActions
-                    .andExpect(status().isCreated())
-                    .andExpect(header().string("Location", "/api/v1/my-coupons/1"))
-                    .andDo(print())
-                    .andDo(restDocs.document(requestFields(
-                                    fieldWithPath("userId").type(NUMBER).description("userId"),
-                                    fieldWithPath("couponId").type(NUMBER)
-                                            .description("couponId"))
-                            )
-                    );
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/v1/my-coupons/1"))
+                .andDo(print())
+                .andDo(restDocs.document(requestFields(
+                        fieldWithPath("userId").type(NUMBER).description("userId"),
+                        fieldWithPath("couponId").type(NUMBER).description("couponId"))
+                    )
+                );
 
+        }
+    }
+
+    @Nested
+    @DisplayName("유저쿠폰 조회 api 호출 시")
+    class findIssuedCouponsApi {
+
+        @Test
+        @DisplayName("성공")
+        void findIssuedCoupons() throws Exception {
+            // given
+            FindIssuedCouponsResponse issuedCouponsResponse = CouponFixture.findIssuedCouponsResponse();
+            given(couponService.findIssuedCoupons(any())).willReturn(issuedCouponsResponse);
+
+            // when
+            ResultActions resultActions = mockMvc.perform(get("/api/v1/my-coupons")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header(AUTHORIZATION, accessToken));
+
+            // then
+            resultActions.andExpect(status().isOk())
+                .andDo(restDocs.document(
+                    responseFields(
+                        fieldWithPath("id").type(JsonFieldType.STRING).description("응답 ID"),
+                        fieldWithPath("dateTime").type(JsonFieldType.STRING).description("응답 날짜 및 시간"),
+                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                        fieldWithPath("response.coupons").type(ARRAY).description("발급 가능한 쿠폰 리스트"),
+                        fieldWithPath("response.coupons[].couponId").type(NUMBER).description("쿠폰 아이디"),
+                        fieldWithPath("response.coupons[].name").type(STRING).description("쿠폰 이름"),
+                        fieldWithPath("response.coupons[].description").type(STRING).description("쿠폰 설명"),
+                        fieldWithPath("response.coupons[].discount").type(NUMBER).description("할인 금액"),
+                        fieldWithPath("response.coupons[].endAt").type(STRING).description("쿠폰 만료 일자 (yyyy-MM-dd)")
+                    )));
         }
     }
 
