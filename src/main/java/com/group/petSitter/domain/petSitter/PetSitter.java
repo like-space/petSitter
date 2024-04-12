@@ -6,6 +6,8 @@ import com.group.petSitter.domain.review.Review;
 import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -13,17 +15,15 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class PetSitter extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long petSitterId;
 
-    @OneToMany(mappedBy = "petSitter")
-    private List<Pet> pets = new ArrayList<>();
-
-    @Column(nullable = false)
-    private String nickname;
+    @Column(nullable = false,unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -31,11 +31,13 @@ public class PetSitter extends BaseTimeEntity {
     @Column
     private String address;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PetStatus status = PetStatus.PENDING;
-
     @OneToMany(mappedBy = "petSitter", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder
+    public PetSitter(String username, String password, String address) {
+        this.username = username;
+        this.password = password;
+        this.address = address;
+    }
 }
