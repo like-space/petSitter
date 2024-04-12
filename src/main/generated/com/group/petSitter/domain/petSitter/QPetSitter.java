@@ -1,4 +1,4 @@
-package com.group.petSitter.domain.user;
+package com.group.petSitter.domain.petSitter;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,14 +11,14 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QUser is a Querydsl query type for User
+ * QPetSitter is a Querydsl query type for PetSitter
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QUser extends EntityPathBase<User> {
+public class QPetSitter extends EntityPathBase<PetSitter> {
 
-    private static final long serialVersionUID = 240305932L;
+    private static final long serialVersionUID = -154591404L;
 
-    public static final QUser user = new QUser("user");
+    public static final QPetSitter petSitter = new QPetSitter("petSitter");
 
     public final com.group.petSitter.global.QBaseTimeEntity _super = new com.group.petSitter.global.QBaseTimeEntity(this);
 
@@ -27,35 +27,31 @@ public class QUser extends EntityPathBase<User> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath email = createString("email");
-
     public final StringPath nickname = createString("nickname");
+
+    public final StringPath password = createString("password");
 
     public final ListPath<com.group.petSitter.domain.pet.Pet, com.group.petSitter.domain.pet.QPet> pets = this.<com.group.petSitter.domain.pet.Pet, com.group.petSitter.domain.pet.QPet>createList("pets", com.group.petSitter.domain.pet.Pet.class, com.group.petSitter.domain.pet.QPet.class, PathInits.DIRECT2);
 
-    public final StringPath provider = createString("provider");
+    public final NumberPath<Long> petSitterId = createNumber("petSitterId", Long.class);
 
-    public final StringPath providerId = createString("providerId");
+    public final ListPath<com.group.petSitter.domain.review.Review, com.group.petSitter.domain.review.QReview> reviews = this.<com.group.petSitter.domain.review.Review, com.group.petSitter.domain.review.QReview>createList("reviews", com.group.petSitter.domain.review.Review.class, com.group.petSitter.domain.review.QReview.class, PathInits.DIRECT2);
+
+    public final EnumPath<com.group.petSitter.domain.pet.PetStatus> status = createEnum("status", com.group.petSitter.domain.pet.PetStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final EnumPath<UserGrade> userGrade = createEnum("userGrade", UserGrade.class);
-
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
-
-    public final EnumPath<UserRole> userRole = createEnum("userRole", UserRole.class);
-
-    public QUser(String variable) {
-        super(User.class, forVariable(variable));
+    public QPetSitter(String variable) {
+        super(PetSitter.class, forVariable(variable));
     }
 
-    public QUser(Path<? extends User> path) {
+    public QPetSitter(Path<? extends PetSitter> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+    public QPetSitter(PathMetadata metadata) {
+        super(PetSitter.class, metadata);
     }
 
 }
