@@ -29,7 +29,7 @@ public class QReview extends EntityPathBase<Review> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final com.group.petSitter.domain.petSitter.QPetSitter petSitter;
+    public final com.group.petSitter.domain.walk.QPetSitter petSitter;
 
     public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
 
@@ -58,7 +58,7 @@ public class QReview extends EntityPathBase<Review> {
 
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.petSitter.QPetSitter(forProperty("petSitter")) : null;
+        this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.walk.QPetSitter(forProperty("petSitter")) : null;
         this.user = inits.isInitialized("user") ? new com.group.petSitter.domain.user.QUser(forProperty("user")) : null;
     }
 

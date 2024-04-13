@@ -25,7 +25,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class PetControllerTest extends BaseControllerTest {
+public class PetSitterControllerTest extends BaseControllerTest {
 
     @Nested
     @DisplayName("반려동물을 등록하는 api 호출시")

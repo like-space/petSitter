@@ -6,7 +6,6 @@ import com.group.petSitter.global.auth.jwt.JavaJwtTokenProvider;
 import com.group.petSitter.global.auth.jwt.TokenProvider;
 import com.group.petSitter.global.auth.jwt.dto.CreateTokenCommand;
 import com.group.petSitter.global.auth.jwt.dto.JwtAuthentication;
-import com.group.petSitter.global.auth.service.request.LoginRiderCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
