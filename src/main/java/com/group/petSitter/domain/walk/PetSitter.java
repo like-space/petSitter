@@ -1,7 +1,5 @@
-package com.group.petSitter.domain.petSitter;
+package com.group.petSitter.domain.walk;
 
-import com.group.petSitter.domain.pet.Pet;
-import com.group.petSitter.domain.pet.PetStatus;
 import com.group.petSitter.domain.review.Review;
 import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;

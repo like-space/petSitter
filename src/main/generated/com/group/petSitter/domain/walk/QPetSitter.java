@@ -1,4 +1,4 @@
-package com.group.petSitter.domain.petSitter;
+package com.group.petSitter.domain.walk;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPetSitter extends EntityPathBase<PetSitter> {
 
-    private static final long serialVersionUID = -154591404L;
+    private static final long serialVersionUID = 920272479L;
 
     public static final QPetSitter petSitter = new QPetSitter("petSitter");
 

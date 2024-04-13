@@ -1,8 +1,8 @@
 package com.group.petSitter.global.auth.service;
 
-import com.group.petSitter.domain.petSitter.PetSitter;
-import com.group.petSitter.domain.petSitter.repository.PetSitterRepository;
 import com.group.petSitter.domain.user.UserRole;
+import com.group.petSitter.domain.walk.PetSitter;
+import com.group.petSitter.domain.walk.repository.PetSitterRepository;
 import com.group.petSitter.global.auth.exception.DuplicateUsernameException;
 import com.group.petSitter.global.auth.exception.InvalidPasswordException;
 import com.group.petSitter.global.auth.exception.InvalidUsernameException;
@@ -50,7 +50,7 @@ public class PetSitterAutenticationService {
     @Transactional(readOnly = true)
     public LoginPetSitterResponse loginPetSitter(LoginPetSitterCommand loginPetSitterCommand) {
         PetSitter petSitter = findPetSitterByUsername(loginPetSitterCommand);
-        verifyRiderPassword(loginPetSitterCommand, petSitter);
+        verifyPetSitterPassword(loginPetSitterCommand, petSitter);
         CreateTokenCommand createTokenCommand
                 = CreateTokenCommand.of(petSitter.getPetSitterId(), UserRole.ROLE_PET_SITTER);
         String accessToken = tokenProvider.createToken(createTokenCommand);
@@ -62,7 +62,7 @@ public class PetSitterAutenticationService {
                 .orElseThrow(() -> new InvalidUsernameException("사용자의 정보와 일치하지 않습니다."));
     }
 
-    private void verifyRiderPassword(LoginPetSitterCommand loginPetSitterCommand, final PetSitter petSitter) {
+    private void verifyPetSitterPassword(LoginPetSitterCommand loginPetSitterCommand, final PetSitter petSitter) {
         if (!passwordEncoder.matches(loginPetSitterCommand.password(), petSitter.getPassword())) {
             throw new InvalidPasswordException("사용자의 정보와 일치하지 않습니다.");
         }
