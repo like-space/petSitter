@@ -114,7 +114,7 @@ class CouponControllerTest extends BaseControllerTest {
 
             //when
             ResultActions resultActions = mockMvc.perform(
-                post("/api/v1/my-coupons/{couponId}", couponId)
+                post("/api/v1/coupons/my-coupons/{couponId}", couponId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(registerUserCouponCommand))
                     .header(AUTHORIZATION, accessToken));
@@ -145,7 +145,7 @@ class CouponControllerTest extends BaseControllerTest {
             given(couponService.findIssuedCoupons(any())).willReturn(issuedCouponsResponse);
 
             // when
-            ResultActions resultActions = mockMvc.perform(get("/api/v1/my-coupons")
+            ResultActions resultActions = mockMvc.perform(get("/api/v1/coupons/my-coupons")
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(AUTHORIZATION, accessToken));
 
@@ -156,7 +156,7 @@ class CouponControllerTest extends BaseControllerTest {
                         fieldWithPath("id").type(JsonFieldType.STRING).description("응답 ID"),
                         fieldWithPath("dateTime").type(JsonFieldType.STRING).description("응답 날짜 및 시간"),
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                        fieldWithPath("response.coupons").type(ARRAY).description("발급 가능한 쿠폰 리스트"),
+                        fieldWithPath("response.coupons").type(ARRAY).description("발급한 쿠폰 리스트"),
                         fieldWithPath("response.coupons[].couponId").type(NUMBER).description("쿠폰 아이디"),
                         fieldWithPath("response.coupons[].name").type(STRING).description("쿠폰 이름"),
                         fieldWithPath("response.coupons[].description").type(STRING).description("쿠폰 설명"),

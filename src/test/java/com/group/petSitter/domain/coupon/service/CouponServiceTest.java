@@ -138,7 +138,7 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("예외: coupon 이 존재하지 않는 경우, NotFoundCouponException 발생")
+        @DisplayName("예외: coupon 이 존재하지 않는 경우, InvalidCouponException 발생")
         void throwExceptionWhenAlreadyIssuedCoupon() {
             //given
             given(couponRepository.findById((any()))).willReturn(Optional.ofNullable(givenCoupon));
