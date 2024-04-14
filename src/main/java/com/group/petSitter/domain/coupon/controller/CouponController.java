@@ -50,7 +50,7 @@ public class CouponController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/my-coupons/{couponId}")
+    @PostMapping("/coupons/my-coupons/{couponId}")
     public ResponseEntity<Void> RegisterUserCoupon(
             @PathVariable final Long couponId,
             @LoginUser final Long userId) {
