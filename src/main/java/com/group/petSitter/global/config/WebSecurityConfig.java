@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(requestPermitAll()).permitAll()
                         .requestMatchers(requestHasRoleUser()).hasRole("USER")
-                        .requestMatchers(requestHasRoleRider()).hasRole("RIDER")
+                        .requestMatchers(requestHasRolePetSitter()).hasRole("PET_SITTER")
                         .requestMatchers(requestHasRoleEmployee()).hasRole("EMPLOYEE")
                         .requestMatchers(requestHasRoleAdmin()).hasRole("ADMIN")
                         .anyRequest().denyAll())
@@ -69,7 +69,7 @@ public class WebSecurityConfig {
         List<RequestMatcher> requestMatchers = List.of(
                 antMatcher(GET, "/api/v1/notifications/**"),
                 antMatcher(POST, "/oauth2/authorization/**"),
-                antMatcher(POST, "/api/v1/riders/**"),
+                antMatcher(POST, "/api/v1/petSitter/**"),
                 antMatcher(GET, "/api/v1/items/**"),
                 antMatcher(GET, "/api/v1/events/**"),
                 antMatcher(GET, "/docs/**"));
@@ -92,9 +92,9 @@ public class WebSecurityConfig {
         return requestMatchers.toArray(RequestMatcher[]::new);
     }
 
-    private RequestMatcher[] requestHasRoleRider() {
+    private RequestMatcher[] requestHasRolePetSitter() {
         List<RequestMatcher> requestMatchers = List.of(
-                antMatcher("/api/v1/deliveries/**")
+                antMatcher("/api/v1/walk/**")
         );
         return requestMatchers.toArray(RequestMatcher[]::new);
     }

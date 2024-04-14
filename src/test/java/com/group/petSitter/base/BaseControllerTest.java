@@ -7,6 +7,7 @@ import com.group.petSitter.domain.user.service.UserService;
 import com.group.petSitter.global.auth.jwt.JwtAuthenticationProvider;
 import com.group.petSitter.global.auth.jwt.filter.JwtAuthenticationFilter;
 import com.group.petSitter.global.auth.oauth.client.OAuthRestClient;
+import com.group.petSitter.global.auth.service.PetSitterAutenticationService;
 import com.group.petSitter.global.auth.support.AuthFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,8 @@ public abstract class BaseControllerTest {
     @MockBean
     protected OAuthRestClient oAuthRestClient;
 
-
+    @MockBean
+    protected PetSitterAutenticationService petSitterAutenticationService;
 
     protected static final String AUTHORIZATION = "Authorization";
 

@@ -22,12 +22,12 @@ import java.net.URI;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/coupons")
 public class CouponController {
 
     private final CouponService couponService;
 
-    @PostMapping("/coupons")
+    @PostMapping
     public ResponseEntity<Void> createCoupon(
         @Valid @RequestBody RegisterCouponRequest registerCouponRequest) {
         RegisterCouponCommand registerCouponCommand =
@@ -39,7 +39,7 @@ public class CouponController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/coupons")
+    @GetMapping
     public ResponseEntity<CommonResponse> findCoupons() {
         FindCouponsResponse findCouponsResponse = couponService.findCoupons();
         CommonResponse response = CommonResponse.builder()
@@ -78,10 +78,10 @@ public class CouponController {
     @ExceptionHandler(CouponException.class)
     public ResponseEntity<ErrorResponse> handleException(
         final CouponException couponException) {
-        log.info("couponExceptionMessage={}", couponException.getMessage());
+        log.info("couponExceptionMessage= {}", couponException.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                //.code("")
+                .code("Coupon_ERROR_CODE") // 예외 코드
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(couponException.getMessage())
                 .build();

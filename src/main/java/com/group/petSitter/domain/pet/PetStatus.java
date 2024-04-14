@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum PetStatus {
     PENDING("pending"),
-
     DELIVERING("delivering"),
     COMPLETED("completed"),
     CANCELED("canceled");

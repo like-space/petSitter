@@ -1,8 +1,8 @@
 package com.group.petSitter.domain.pet;
 
+import com.group.petSitter.domain.walk.PetSitter;
 import com.group.petSitter.global.BaseTimeEntity;
 import com.group.petSitter.domain.user.User;
-import com.group.petSitter.domain.petSitter.PetSitter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
