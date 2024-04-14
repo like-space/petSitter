@@ -34,16 +34,12 @@ public class PetController {
     ) {
         FindPetsByUserResponse findPetsByUserResponse = petService.savePet(CreatePetCommand.of(user_id, createPetRequest));
 
-        URI location = URI.create(BASE_URI + "/myPets");
+        CommonResponse commonResponse = CommonResponse.builder()
+                .response(findPetsByUserResponse)
+                .success(true)
+                .build();
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(
-                    CommonResponse.builder()
-                    .response(findPetsByUserResponse)
-                    .success(true)
-                    .build()
-                );
+        return new ResponseEntity<>(commonResponse,HttpStatus.CREATED);
     }
 
     @GetMapping("/{petId}")
@@ -51,15 +47,12 @@ public class PetController {
             @PathVariable("petId") Long petId
     ){
         FindPetDetailResponse petDetailResponse = petService.findPetDetailResponse(petId);
+        CommonResponse commonResponse = CommonResponse.builder()
+                .response(petDetailResponse)
+                .success(true)
+                .build();
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                    CommonResponse.builder()
-                    .response(petDetailResponse)
-                    .success(true)
-                    .build()
-                );
+        return new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }
 
     @PatchMapping("/{petId}")
@@ -67,16 +60,14 @@ public class PetController {
             @PathVariable("petId") Long petId,
             @Valid @RequestBody UpdatePetRequest updatePetRequest
     ){
-        FindPetDetailResponse findPetDetailResponse = petService.updatePet(petId, UpdatePetCommand.of(updatePetRequest));
+        FindPetDetailResponse findPetDetailResponse = petService.updatePet(UpdatePetCommand.of(petId,updatePetRequest));
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                    CommonResponse.builder()
-                    .response(findPetDetailResponse)
-                    .success(true)
-                    .build()
-                );
+        CommonResponse commpCommonResponse = CommonResponse.builder()
+                .response(findPetDetailResponse)
+                .success(true)
+                .build();
+
+        return new ResponseEntity<>(commpCommonResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("/{petId}")
