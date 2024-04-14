@@ -81,7 +81,7 @@ public class CouponController {
         log.info("couponExceptionMessage= {}", couponException.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                //.code("")
+                .code("Coupon_ERROR_CODE") // 예외 코드
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(couponException.getMessage())
                 .build();
