@@ -64,4 +64,4 @@ spring:
 jwt:
   issuer: Petsitter
   client-secret: K7na2VryLl+P8fWTG9vReR3F2pztYwLk8nSKTrs05zU=
-  expiry-seconds: 3600
+  expiry-seconds: 30
