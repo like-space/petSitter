@@ -41,25 +41,11 @@ public class PetSitter extends BaseTimeEntity {
 
     @Builder
     public PetSitter(String username, String password, String address) {
-        validatePetSittername(username);
-        validatePetSitterPassword(password);
         validatePetSitterAddress(address);
 
         this.username = username;
         this.password = password;
         this.address = address;
-    }
-
-    public void validatePetSittername(String username){
-        if(!PET_SITTER_NAME_PATTERN.matcher(username).matches()){
-            throw new InvalidUserException("사용자 이름은 영어 소문자 또는 영어 소문자와 숫자 6자 이상, 20자 이하로 구성 되어야 합니다.");
-        };
-    }
-
-    public void validatePetSitterPassword(String password){
-        if(!PET_SITTER_PASSWORD_PATTERN.matcher(password).matches()){
-            throw new InvalidPasswordException("패스워드는 영어 소문자, 숫자 8자 이상, 20자 이하로 구성 되어야 합니다.");
-        }
     }
 
     public void validatePetSitterAddress(String address){
