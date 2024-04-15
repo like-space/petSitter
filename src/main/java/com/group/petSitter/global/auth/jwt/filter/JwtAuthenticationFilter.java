@@ -1,5 +1,6 @@
 package com.group.petSitter.global.auth.jwt.filter;
 
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -46,9 +47,16 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         } catch (TokenExpiredException ex) {
             handleException(response, HttpServletResponse.SC_UNAUTHORIZED, "Expired token", ex.getMessage());
             log.info("TokenExpiredException: 토큰이 만료되었습니다.");
-        } catch (InvalidJwtException ex) {
+        } catch (InvalidJwtException | SignatureVerificationException ex) {
             handleException(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token", ex.getMessage());
-            log.info("JWTVerificationException: 유효하지 않은 토큰입니다.");
+            if (ex instanceof InvalidJwtException) {
+                log.info("JWTVerificationException: 유효하지 않은 토큰입니다.");
+            } else {
+                log.info("SignatureVerificationException: 잘못된 토큰입니다.");
+            }
+        } catch (Exception ex) {
+            handleException(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token", ex.getMessage());
+            log.info("Exception: 토큰 확인 중 오류가 발생했습니다");
         }
     }
 
@@ -56,8 +64,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         response.setStatus(status);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode errorResponse = mapper.createObjectNode();
-        errorResponse.put("error", error);
+        errorResponse.put("code", error);
         errorResponse.put("message", message);
+        errorResponse.put("status", status);
         response.getWriter().write(errorResponse.toString());
     }
 }
