@@ -27,7 +27,6 @@ public class PetFixture {
 
     public static Pet pet(User user){
         ReflectionTestUtils.setField(user, "userId", 1L);
-
         Pet pet = Pet.builder()
                 .petName(petName)
                 .petStatus(PET_STATUS)
@@ -67,8 +66,8 @@ public class PetFixture {
         return FindPetDetailResponse.from(pet);
     }
 
-    public static UpdatePetCommand updatePetCommand(Long petId, UpdatePetRequest updatePetRequest){
-        return new UpdatePetCommand(petId, updatePetRequest.petName());
+    public static UpdatePetCommand updatePetCommand(Long userId, Long petId, UpdatePetRequest updatePetRequest){
+        return new UpdatePetCommand(userId, petId, updatePetRequest.petName());
     }
 
 }
