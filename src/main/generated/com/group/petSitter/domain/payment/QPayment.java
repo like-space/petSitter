@@ -28,8 +28,6 @@ public class QPayment extends EntityPathBase<Payment> {
 
     public final EnumPath<PaymentStatus> paymentStatus = createEnum("paymentStatus", PaymentStatus.class);
 
-    public final NumberPath<Integer> price = createNumber("price", Integer.class);
-
     public QPayment(String variable) {
         this(Payment.class, forVariable(variable), INITS);
     }

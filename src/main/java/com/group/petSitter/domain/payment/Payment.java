@@ -20,17 +20,13 @@ public class Payment {
     @OneToOne(mappedBy = "payment")
     private Order order;
 
-    @Column(nullable = false)
-    private int price;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentStatus paymentStatus;
 
     @Builder
-    public Payment(Order order, int price, PaymentStatus paymentStatus) {
+    public Payment(Order order, PaymentStatus paymentStatus) {
         this.order = order;
-        this.price = price;
         this.paymentStatus = paymentStatus;
     }
 }
