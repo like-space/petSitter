@@ -4,6 +4,7 @@ package com.group.petSitter.domain.pet.service;
 import com.group.petSitter.domain.pet.Pet;
 import com.group.petSitter.domain.pet.PetStatus;
 import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
+import com.group.petSitter.domain.pet.exception.InvalidPetException;
 import com.group.petSitter.domain.pet.exception.NotFoundPetException;
 import com.group.petSitter.domain.pet.repository.PetRepository;
 import com.group.petSitter.domain.pet.service.request.CreatePetCommand;
@@ -93,7 +94,12 @@ public class PetService {
 
     private Pet findPetByUserId(final User user, Long petId) {
         return petRepository.findPetByUserAndPetId(user, petId)
-                .orElseThrow(()-> new NotFoundPetException("해당 반려동물에 접근권한이 없습니다."));
+                .orElseThrow(()-> new InvalidPetException("해당 반려동물에 접근권한이 없습니다."));
+    }
+
+    private Pet findPetById(Long petId){
+        return petRepository.findPetByPetId(petId)
+                .orElseThrow(() -> new NotFoundPetException("존재하지 않는 반려동물입니다."));
     }
 
 }

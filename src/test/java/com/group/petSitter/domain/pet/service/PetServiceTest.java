@@ -3,6 +3,7 @@ package com.group.petSitter.domain.pet.service;
 import com.group.petSitter.domain.coupon.exception.NotFoundCouponException;
 import com.group.petSitter.domain.pet.Pet;
 import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
+import com.group.petSitter.domain.pet.exception.InvalidPetException;
 import com.group.petSitter.domain.pet.exception.NotFoundPetException;
 import com.group.petSitter.domain.pet.repository.PetRepository;
 import com.group.petSitter.domain.pet.service.request.CreatePetCommand;
@@ -116,7 +117,7 @@ public class PetServiceTest {
                     catchException(() -> petService.updatePet(updatePetCommand));
 
             //then
-            assertThat(exception).isInstanceOf(NotFoundPetException.class);
+            assertThat(exception).isInstanceOf(InvalidPetException.class);
         }
     }
 
