@@ -2,6 +2,7 @@ package com.group.petSitter.domain.coupon.support;
 
 import com.group.petSitter.domain.coupon.Coupon;
 import com.group.petSitter.domain.coupon.UserCoupon;
+import com.group.petSitter.domain.coupon.service.request.RegisterUserCouponCommand;
 import com.group.petSitter.domain.user.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public final class UserCouponFixture {
         return new UserCoupon(user, coupon);
     }
 
-//    public static RegisterUserCouponCommand registerUserCouponCommand() {
-//        return new RegisterUserCouponCommand(userId, couponId);
-//    }
+    public static RegisterUserCouponCommand registerUserCouponCommand() {
+        return new RegisterUserCouponCommand(userId, couponId);
+    }
 }

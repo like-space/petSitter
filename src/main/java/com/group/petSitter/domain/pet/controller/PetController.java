@@ -1,8 +1,10 @@
 package com.group.petSitter.domain.pet.controller;
 
+import com.group.petSitter.domain.coupon.exception.CouponException;
 import com.group.petSitter.domain.pet.Pet;
 import com.group.petSitter.domain.pet.controller.request.CreatePetRequest;
 import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
+import com.group.petSitter.domain.pet.exception.PetException;
 import com.group.petSitter.domain.pet.service.PetService;
 import com.group.petSitter.domain.pet.service.request.CreatePetCommand;
 import com.group.petSitter.domain.pet.service.request.UpdatePetCommand;
@@ -10,6 +12,7 @@ import com.group.petSitter.domain.pet.service.response.FindPetDetailResponse;
 import com.group.petSitter.domain.pet.service.response.FindPetsByUserResponse;
 import com.group.petSitter.global.auth.LoginUser;
 import com.group.petSitter.global.dto.CommonResponse;
+import com.group.petSitter.global.dto.ErrorResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -95,4 +98,14 @@ public class PetController {
         return new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }
 
+    @ExceptionHandler(PetException.class)
+    public ResponseEntity<ErrorResponse> handleException(final PetException petException) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("Pet_ERROR_CODE") // 예외 코드
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(petException.getMessage())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
 }

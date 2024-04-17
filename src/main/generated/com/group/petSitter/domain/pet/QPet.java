@@ -31,7 +31,7 @@ public class QPet extends EntityPathBase<Pet> {
 
     public final StringPath petName = createString("petName");
 
-    public final com.group.petSitter.domain.petSitter.QPetSitter petSitter;
+    public final com.group.petSitter.domain.walk.QPetSitter petSitter;
 
     public final EnumPath<PetStatus> petStatus = createEnum("petStatus", PetStatus.class);
 
@@ -58,7 +58,7 @@ public class QPet extends EntityPathBase<Pet> {
 
     public QPet(Class<? extends Pet> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.petSitter.QPetSitter(forProperty("petSitter")) : null;
+        this.petSitter = inits.isInitialized("petSitter") ? new com.group.petSitter.domain.walk.QPetSitter(forProperty("petSitter")) : null;
         this.user = inits.isInitialized("user") ? new com.group.petSitter.domain.user.QUser(forProperty("user")) : null;
     }
 
