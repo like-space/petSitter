@@ -4,6 +4,8 @@ package com.group.petSitter.domain.pet.service;
 import com.group.petSitter.domain.pet.Pet;
 import com.group.petSitter.domain.pet.PetStatus;
 import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
+import com.group.petSitter.domain.pet.exception.InvalidPetException;
+import com.group.petSitter.domain.pet.exception.NotFoundPetException;
 import com.group.petSitter.domain.pet.repository.PetRepository;
 import com.group.petSitter.domain.pet.service.request.CreatePetCommand;
 import com.group.petSitter.domain.pet.service.request.UpdatePetCommand;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,28 +53,31 @@ public class PetService {
     }
 
     @Transactional
-    public FindPetDetailResponse findPetDetailResponse(Long petId){
-        Pet pets = petRepository.findPetByPetId(petId);
+    public FindPetDetailResponse findPetDetailResponse(Long userId, Long petId){
+        User user = findUserByUserId(userId);
+        Pet pet = findPetByUserId(user, petId);
 
-        return FindPetDetailResponse.from(pets);
+        return FindPetDetailResponse.from(pet);
     }
 
     @Transactional
     public FindPetDetailResponse updatePet(
             UpdatePetCommand updatePetCommand
     ){
-        Pet pet = petRepository.findPetByPetId(updatePetCommand.petId());
+        User user = findUserByUserId(updatePetCommand.userId());
+        Pet pet = findPetByUserId(user, updatePetCommand.petId());
 
-        pet.updatePet(
-                updatePetCommand.petName()
-        );
+        pet.updatePet(updatePetCommand.petName());
 
         return FindPetDetailResponse.from(pet);
     }
 
     @Transactional
-    public void deletePet(Long petId){
-       petRepository.deleteById(petId);
+    public void deletePet(Long userId, Long petId){
+        User user = findUserByUserId(userId);
+        Pet pet = findPetByUserId(user, petId);
+
+        petRepository.deleteById(pet.getPetId());
     }
 
     @Transactional
@@ -84,6 +90,16 @@ public class PetService {
     private User findUserByUserId(final Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundUserException("존재하지 않은 사용자입니다."));
+    }
+
+    private Pet findPetByUserId(final User user, Long petId) {
+        return petRepository.findPetByUserAndPetId(user, petId)
+                .orElseThrow(()-> new InvalidPetException("해당 반려동물에 접근권한이 없습니다."));
+    }
+
+    private Pet findPetById(Long petId){
+        return petRepository.findPetByPetId(petId)
+                .orElseThrow(() -> new NotFoundPetException("존재하지 않는 반려동물입니다."));
     }
 
 }

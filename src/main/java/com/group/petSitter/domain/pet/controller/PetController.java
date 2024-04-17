@@ -35,8 +35,10 @@ public class PetController {
             @LoginUser Long user_id,
             @Valid @RequestBody CreatePetRequest createPetRequest
     ) {
-        FindPetsByUserResponse findPetsByUserResponse = petService.savePet(CreatePetCommand.of(user_id, createPetRequest));
-
+        FindPetsByUserResponse findPetsByUserResponse =
+                petService.savePet(
+                        CreatePetCommand.of(user_id, createPetRequest)
+                );
         CommonResponse commonResponse = CommonResponse.builder()
                 .response(findPetsByUserResponse)
                 .success(true)
@@ -47,9 +49,10 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public ResponseEntity<CommonResponse> findPetDetail(
+            @LoginUser Long userId,
             @PathVariable("petId") Long petId
     ){
-        FindPetDetailResponse petDetailResponse = petService.findPetDetailResponse(petId);
+        FindPetDetailResponse petDetailResponse = petService.findPetDetailResponse(userId, petId);
         CommonResponse commonResponse = CommonResponse.builder()
                 .response(petDetailResponse)
                 .success(true)
@@ -60,10 +63,14 @@ public class PetController {
 
     @PatchMapping("/{petId}")
     public ResponseEntity<CommonResponse> updatePet(
+            @LoginUser Long userId,
             @PathVariable("petId") Long petId,
             @Valid @RequestBody UpdatePetRequest updatePetRequest
     ){
-        FindPetDetailResponse findPetDetailResponse = petService.updatePet(UpdatePetCommand.of(petId,updatePetRequest));
+        FindPetDetailResponse findPetDetailResponse =
+                petService.updatePet(
+                        UpdatePetCommand.of(userId, petId, updatePetRequest)
+                );
 
         CommonResponse commpCommonResponse = CommonResponse.builder()
                 .response(findPetDetailResponse)
@@ -75,10 +82,10 @@ public class PetController {
 
     @DeleteMapping("/{petId}")
     public ResponseEntity<Void> deletePet(
+            @LoginUser Long userId,
             @PathVariable("petId") Long petId
     ){
-       petService.deletePet(petId);
-
+       petService.deletePet(userId, petId);
        return ResponseEntity.noContent().build();
 
     }
@@ -88,15 +95,12 @@ public class PetController {
             @LoginUser Long userId
     ){
         FindPetsByUserResponse petsByUserResponse = petService.findPetsByUserResponse(userId);
+        CommonResponse commonResponse = CommonResponse.builder()
+                .response(petsByUserResponse)
+                .success(true)
+                .build();
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(
-                        CommonResponse.builder()
-                        .response(petsByUserResponse)
-                        .success(true)
-                        .build()
-                );
+        return new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }
 
     @ExceptionHandler(PetException.class)
