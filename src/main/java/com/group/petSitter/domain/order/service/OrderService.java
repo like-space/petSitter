@@ -7,6 +7,7 @@ import com.group.petSitter.domain.order.service.response.CreateOrderResponse;
 import com.group.petSitter.domain.order.service.request.CreateOrdersCommand;
 import com.group.petSitter.domain.order.service.response.FindOrdersResponse;
 import com.group.petSitter.domain.pet.Pet;
+import com.group.petSitter.domain.pet.exception.InvalidPetException;
 import com.group.petSitter.domain.pet.exception.NotFoundPetException;
 import com.group.petSitter.domain.pet.repository.PetRepository;
 import com.group.petSitter.domain.user.User;
@@ -33,8 +34,8 @@ public class OrderService {
     @Transactional
     public CreateOrderResponse createOrder(CreateOrdersCommand createOrdersCommand) {
         User findUser = findUserByUserId(createOrdersCommand.userId());
-        Long orderPet = findPetByUserId(findUser, createOrdersCommand.createOrderRequest().petId());
-        Order order = new Order(findUser, orderPet);
+        Pet orderPet = findPetByUserId(findUser, createOrdersCommand.createOrderRequest().petId());
+        Order order = new Order(findUser, orderPet.getPetId());
         orderRepository.save(order);
 
         return CreateOrderResponse.from(order);
@@ -53,9 +54,9 @@ public class OrderService {
                 .orElseThrow(()-> new NotFoundUserException("존재하지 않는 사용자입니다."));
     }
 
-    private Long findPetByUserId(final User user, Long petId) {
+    private Pet findPetByUserId(final User user, Long petId) {
         return petRepository.findPetByUserAndPetId(user, petId)
-                .orElseThrow(()-> new NotFoundPetException("존재하지 않는 펫 입니다.")).getPetId();
+                .orElseThrow(()-> new InvalidPetException("해당 반려동물에 접근권한이 없습니다."));
     }
 
 }

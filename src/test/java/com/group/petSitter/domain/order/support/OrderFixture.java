@@ -5,11 +5,15 @@ import com.group.petSitter.domain.order.OrderStatus;
 import com.group.petSitter.domain.order.controller.request.CreateOrderRequest;
 import com.group.petSitter.domain.order.service.request.CreateOrdersCommand;
 import com.group.petSitter.domain.order.service.response.CreateOrderResponse;
+import com.group.petSitter.domain.pet.support.PetFixture;
 import com.group.petSitter.domain.user.User;
+import com.group.petSitter.domain.user.support.UserFixture;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
+import static com.group.petSitter.domain.pet.support.PetFixture.*;
+import static com.group.petSitter.domain.user.support.UserFixture.*;
 import static com.group.petSitter.domain.user.support.UserFixture.user;
 
 public class OrderFixture {
