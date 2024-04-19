@@ -2,6 +2,7 @@ package com.group.petSitter.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.petSitter.domain.coupon.service.CouponService;
+import com.group.petSitter.domain.order.service.OrderService;
 import com.group.petSitter.domain.pet.service.PetService;
 import com.group.petSitter.domain.user.service.UserService;
 import com.group.petSitter.global.auth.jwt.JwtAuthenticationProvider;
@@ -57,6 +58,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected PetSitterAutenticationService petSitterAutenticationService;
+
+    @MockBean
+    protected OrderService orderService;
 
     protected static final String AUTHORIZATION = "Authorization";
 

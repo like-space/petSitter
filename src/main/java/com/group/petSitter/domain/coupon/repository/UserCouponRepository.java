@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
     boolean existsByUserAndCoupon(User user, Coupon coupon);
@@ -19,4 +20,7 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
         @Param("user") User findUser,
         @Param("isUsed") boolean isUsed,
         @Param("currentDate") LocalDate currentDate);
+
+    @Query("SELECT uc FROM UserCoupon uc JOIN FETCH uc.coupon c WHERE uc.userCouponId = :userCouponId")
+    Optional<UserCoupon> findByIdWithCoupon(@Param("userCouponId") Long userCouponId);
 }

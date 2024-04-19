@@ -77,7 +77,7 @@ public class CouponController {
 
     @ExceptionHandler(CouponException.class)
     public ResponseEntity<ErrorResponse> handleException(
-        final CouponException couponException) {
+            final CouponException couponException) {
         log.info("couponExceptionMessage= {}", couponException.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
