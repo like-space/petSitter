@@ -57,7 +57,7 @@ public class CouponController {
         RegisterUserCouponCommand registerUserCouponCommand =
             RegisterUserCouponCommand.of(userId, couponId);
         Long userCouponId = couponService.registerUserCoupon(registerUserCouponCommand);
-        URI location = URI.create("/api/v1/my-coupons/" + userCouponId);
+        URI location = URI.create("/api/v1/coupons/my-coupons/" + userCouponId);
 
         return ResponseEntity.created(location).build();
     }
@@ -77,7 +77,7 @@ public class CouponController {
 
     @ExceptionHandler(CouponException.class)
     public ResponseEntity<ErrorResponse> handleException(
-        final CouponException couponException) {
+            final CouponException couponException) {
         log.info("couponExceptionMessage= {}", couponException.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()

@@ -10,9 +10,13 @@ import com.group.petSitter.domain.user.UserRole;
 import com.group.petSitter.global.auth.exception.InvalidJwtException;
 import com.group.petSitter.global.auth.jwt.dto.Claims;
 import com.group.petSitter.global.auth.jwt.dto.CreateTokenCommand;
+import com.group.petSitter.global.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Date;
 import java.util.List;
@@ -57,13 +61,13 @@ public class JavaJwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public Claims validateToken(final String accessToken) {
-        try {
+    public Claims validateToken(final String accessToken) throws TokenExpiredException {
+//        try {
             DecodedJWT decodedJWT = jwtVerifier.verify(accessToken);
             Long userId = getUserId(decodedJWT);
             List<String> authorities = getAuthorities(decodedJWT);
             return new Claims(userId, authorities);
-        } catch (AlgorithmMismatchException ex) {
+        /*} catch (AlgorithmMismatchException ex) {
             log.info("AlgorithmMismatchException: 토큰의 알고리즘이 유효하지 않습니다.");
         } catch (SignatureVerificationException ex) {
             log.info("SignatureVerificationException: 토큰의 서명이 유효하지 않습니다.");
@@ -74,7 +78,7 @@ public class JavaJwtTokenProvider implements TokenProvider {
         } catch (JWTVerificationException ex) {
             log.info("JWTVerificationException: 유효하지 않은 토큰입니다.");
         }
-        throw new InvalidJwtException("유효하지 않은 토큰입니다.");
+        throw new InvalidJwtException("유효하지 않은 토큰입니다.");*/
     }
 
     private Long getUserId(final DecodedJWT decodedJWT) {

@@ -4,6 +4,7 @@ import com.group.petSitter.global.auth.exception.*;
 import com.group.petSitter.global.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -63,5 +64,17 @@ public class AuthControllerAdvice {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ErrorResponse> bindExHandle(BindException ex) {
+        //파라미터 validation 걸렸을 경우
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("NULL_ERROR_CODE") // 예외 코드
+                .status(HttpStatus.CONFLICT.value()) // HTTP 상태 코드
+                .message(ex.getMessage()) // 예외 메시지
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }

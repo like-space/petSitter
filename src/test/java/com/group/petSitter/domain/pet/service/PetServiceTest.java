@@ -1,7 +1,10 @@
 package com.group.petSitter.domain.pet.service;
 
+import com.group.petSitter.domain.coupon.exception.NotFoundCouponException;
 import com.group.petSitter.domain.pet.Pet;
 import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
+import com.group.petSitter.domain.pet.exception.InvalidPetException;
+import com.group.petSitter.domain.pet.exception.NotFoundPetException;
 import com.group.petSitter.domain.pet.repository.PetRepository;
 import com.group.petSitter.domain.pet.service.request.CreatePetCommand;
 import com.group.petSitter.domain.pet.service.request.UpdatePetCommand;
@@ -30,6 +33,7 @@ import java.util.Optional;
 import static com.group.petSitter.domain.pet.support.PetFixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,19 +82,45 @@ public class PetServiceTest {
     class UpdatePetTest{
 
         @Test
-        @DisplayName("반려동물 등록정보 수정완료")
+        @DisplayName("수정완료")
         void updatePet(){
             //given
             UpdatePetRequest updatePetRequest = updatePetRequest("치즈");
-            UpdatePetCommand updatePetCommand = updatePetCommand(pet.getPetId(),updatePetRequest);
+            UpdatePetCommand updatePetCommand = updatePetCommand(pet.getUser().getUserId(), pet.getPetId(), updatePetRequest);
 
             //when
-            when(petRepository.findPetByPetId(any())).thenReturn(pet);
+            when(userRepository.findById(any())).thenReturn(Optional.of(user));
+            when(petRepository.findPetByUserAndPetId(any(),any())).thenReturn(Optional.of(pet));
             FindPetDetailResponse findPetDetailResponse = petService.updatePet(updatePetCommand);
 
             //then
             assertThat(findPetDetailResponse.petName()).isEqualTo(pet.getPetName());
         }
+
+        @Test
+        @DisplayName("예외: 해당 반려동물에 권한이 없는 유저 접근하여 수정 시")
+        void throwExceptionWhenNotPetOwner() {
+            User anotherUser = User.builder()
+                    .nickname("김경하")
+                    .email("rudgkrk11@naver.com")
+                    .build();
+
+            //given
+            given(userRepository.findById(any())).willReturn(Optional.of(user));
+            given(userRepository.findById(any())).willReturn(Optional.of(anotherUser));
+
+            UpdatePetRequest updatePetRequest = updatePetRequest("치즈");
+            UpdatePetCommand updatePetCommand = updatePetCommand(anotherUser.getUserId(), pet.getPetId(), updatePetRequest);
+
+            //when
+            Exception exception =
+                    catchException(() -> petService.updatePet(updatePetCommand));
+
+            //then
+            assertThat(exception).isInstanceOf(InvalidPetException.class);
+        }
     }
+
+
 
 }

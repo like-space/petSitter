@@ -1,43 +1,68 @@
 package com.group.petSitter.domain.order;
 
+import com.group.petSitter.domain.coupon.UserCoupon;
 import com.group.petSitter.domain.payment.Payment;
 import com.group.petSitter.domain.user.User;
+import com.group.petSitter.global.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Entity
 @Table(name = "orders")
-public class Order {
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
+    @Column(nullable = false)
+    private Long petId;
+
+    @Column(nullable = false)
+    private Integer price;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderStatus orderStatus = OrderStatus.PENDING;
+    private OrderStatus status = OrderStatus.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false, unique = true)
+    private String uuid;
+
+    @Column
+    private String address;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Payment payment;
+    @JoinColumn(name = "user_coupon_id")
+    private UserCoupon userCoupon;
 
-    private String uuid = UUID.randomUUID().toString();
-
-    @Builder
-    public Order(OrderStatus orderStatus, User user, String uuid) {
-        this.orderStatus = orderStatus;
+    public Order(final User user, final Long petId) {
         this.user = user;
-        this.uuid = uuid;
+        this.address = user.getAddress();
+        this.petId = petId;
+        this.uuid = UUID.randomUUID().toString();
+        this.price = 50000; // 현재는 5만원으로 고정
+    }
+
+    public void setUserCoupon(final UserCoupon userCoupon) {
+        if (this.userCoupon != null) {
+            this.price += this.userCoupon.getDiscount();
+        }
+        this.userCoupon = userCoupon;
+        this.price -= userCoupon.getDiscount();
+    }
+
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
     }
 }
