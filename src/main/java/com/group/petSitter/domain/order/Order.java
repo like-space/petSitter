@@ -48,9 +48,18 @@ public class Order extends BaseTimeEntity {
 
     public Order(final User user, final Long petId) {
         this.user = user;
+        this.address = user.getAddress();
         this.petId = petId;
         this.uuid = UUID.randomUUID().toString();
         this.price = 50000; // 현재는 5만원으로 고정
+    }
+
+    public void setUserCoupon(final UserCoupon userCoupon) {
+        if (this.userCoupon != null) {
+            this.price += this.userCoupon.getDiscount();
+        }
+        this.userCoupon = userCoupon;
+        this.price -= userCoupon.getDiscount();
     }
 
     public void updateOrderStatus(OrderStatus orderStatus) {

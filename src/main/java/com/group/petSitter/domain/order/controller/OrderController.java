@@ -1,9 +1,12 @@
 package com.group.petSitter.domain.order.controller;
 
 import com.group.petSitter.domain.order.controller.request.CreateOrderRequest;
+import com.group.petSitter.domain.order.controller.request.UpdateOrderByCouponCommand;
+import com.group.petSitter.domain.order.controller.response.UpdateOrderByCouponResponse;
 import com.group.petSitter.domain.order.service.request.CreateOrdersCommand;
 import com.group.petSitter.domain.order.service.OrderService;
 import com.group.petSitter.domain.order.service.response.CreateOrderResponse;
+import com.group.petSitter.domain.order.service.response.FindOrderDetailResponse;
 import com.group.petSitter.domain.order.service.response.FindOrdersResponse;
 import com.group.petSitter.global.auth.LoginUser;
 import com.group.petSitter.global.dto.CommonResponse;
@@ -27,12 +30,12 @@ public class OrderController {
             @Valid @RequestBody final CreateOrderRequest createOrderRequest,
             @LoginUser final Long userId) {
         CreateOrdersCommand createOrdersCommand =
-                CreateOrdersCommand.of(userId, createOrderRequest);
+            CreateOrdersCommand.of(userId, createOrderRequest);
         CreateOrderResponse createOrderResponse = orderService.createOrder(createOrdersCommand);
         CommonResponse response = CommonResponse.builder()
-                .success(true)
-                .response(createOrderResponse)
-                .build();
+            .success(true)
+            .response(createOrderResponse)
+            .build();
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -43,8 +46,38 @@ public class OrderController {
             @LoginUser Long userId
     ) {
     CommonResponse response = CommonResponse.builder()
+        .success(true)
+        .response(orderService.findOrders(userId, page))
+        .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/{orderId}/apply-coupon")
+    public ResponseEntity<CommonResponse> updateOrderByCoupon(
+            @PathVariable final Long orderId,
+            @LoginUser final Long userId,
+            @RequestParam final Long couponId
+    ) {
+        UpdateOrderByCouponCommand updateOrderByCouponCommand
+            = UpdateOrderByCouponCommand.of(orderId, userId, couponId);
+
+        CommonResponse response = CommonResponse.builder()
             .success(true)
-            .response(orderService.findOrders(userId, page))
+            .response(orderService.updateOrderByCoupon(updateOrderByCouponCommand))
+            .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<CommonResponse> findOrderByIdAndUserId(
+            @PathVariable Long orderId,
+            @LoginUser Long userId
+    ) {
+        CommonResponse response = CommonResponse.builder()
+            .success(true)
+            .response(orderService.findOrderByIdAndUserId(orderId, userId))
             .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

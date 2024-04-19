@@ -1,24 +1,22 @@
 package com.group.petSitter.domain.order.service;
 
+import com.group.petSitter.domain.coupon.UserCoupon;
 import com.group.petSitter.domain.coupon.repository.UserCouponRepository;
 import com.group.petSitter.domain.order.Order;
+import com.group.petSitter.domain.order.controller.request.UpdateOrderByCouponCommand;
+import com.group.petSitter.domain.order.controller.response.UpdateOrderByCouponResponse;
 import com.group.petSitter.domain.order.repository.OrderRepository;
 import com.group.petSitter.domain.order.service.request.CreateOrdersCommand;
 import com.group.petSitter.domain.order.service.response.CreateOrderResponse;
+import com.group.petSitter.domain.order.service.response.FindOrderDetailResponse;
 import com.group.petSitter.domain.order.service.response.FindOrdersResponse;
+import com.group.petSitter.domain.order.support.OrderFixture;
 import com.group.petSitter.domain.pet.Pet;
-import com.group.petSitter.domain.pet.controller.request.UpdatePetRequest;
 import com.group.petSitter.domain.pet.repository.PetRepository;
-import com.group.petSitter.domain.pet.service.PetService;
-import com.group.petSitter.domain.pet.service.PetServiceTest;
-import com.group.petSitter.domain.pet.service.request.UpdatePetCommand;
-import com.group.petSitter.domain.pet.service.response.FindPetDetailResponse;
 import com.group.petSitter.domain.pet.support.PetFixture;
 import com.group.petSitter.domain.user.User;
 import com.group.petSitter.domain.user.repository.UserRepository;
-import com.group.petSitter.domain.user.support.UserFixture;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,8 +32,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.List;
 import java.util.Optional;
 
+import static com.group.petSitter.domain.coupon.support.CouponFixture.userCoupon;
 import static com.group.petSitter.domain.order.support.OrderFixture.*;
-import static com.group.petSitter.domain.pet.support.PetFixture.*;
 import static com.group.petSitter.domain.user.support.UserFixture.user;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,9 +48,6 @@ class OrderServiceTest {
     @InjectMocks
     OrderService orderService;
 
-    @InjectMocks
-    PetService petService;
-
     @Mock
     OrderRepository orderRepository;
 
@@ -64,15 +59,6 @@ class OrderServiceTest {
 
     @Mock
     UserCouponRepository userCouponRepository;
-
-    Pet pet;
-    User user;
-
-    @BeforeEach
-    void setUp(){
-        user = UserFixture.user();
-        pet = pet(user);
-    }
 
     @Nested
     @DisplayName("createOrder 메서드 실행 시")
@@ -99,30 +85,86 @@ class OrderServiceTest {
             // then
             assertThat(result).usingRecursiveComparison().isEqualTo(expected);
         }
+    }
 
-        @Nested
-        @DisplayName("findOrders 메서드 실행 시")
-        class FindOrdersTest {
+    @Nested
+    @DisplayName("findOrders 메서드 실행 시")
+    class FindOrdersTest {
 
-            @Test
-            @DisplayName("성공")
-            void success() {
-                // given
-                User user = user();
-                Order order = completedOrder(1L, user);
-                Pageable pageable = PageRequest.of(0, 10);
-                PageImpl<Order> pagination = new PageImpl<>(List.of(order), pageable, 1L);
-                FindOrdersResponse expected = FindOrdersResponse.of(List.of(order), 1);
+        @Test
+        @DisplayName("성공")
+        void success() {
+            // given
+            User user = user();
+            Order order = completedOrder(1L, user);
+            Pageable pageable = PageRequest.of(0, 10);
+            PageImpl<Order> pagination = new PageImpl<>(List.of(order), pageable, 1L);
+            FindOrdersResponse expected = FindOrdersResponse.of(List.of(order), 1);
 
-                given(orderRepository.findByUser_UserId(eq(user.getUserId()), any()))
-                    .willReturn(pagination);
+            given(orderRepository.findByUser_UserId(eq(user.getUserId()), any())).willReturn(pagination);
 
-                // when
-                FindOrdersResponse result = orderService.findOrders(user.getUserId(), 0);
+            // when
+            FindOrdersResponse result = orderService.findOrders(user.getUserId(), 0);
 
-                // then
-                assertThat(result).usingRecursiveComparison().isEqualTo(expected);
-            }
+            // then
+            assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("updateOrderByCoupon 메서드 실행 시")
+    class UpdateOrderByCouponTest {
+
+        @Test
+        @DisplayName("성공")
+        void success() {
+            //given
+            User user = user();
+            Order order = pendingOrder(1L, user);
+            UserCoupon userCoupon = userCoupon(user);
+            ReflectionTestUtils.setField(userCoupon, "userCouponId", 1L);
+            UpdateOrderByCouponCommand updateOrderByCouponCommand =
+                OrderFixture.updateOrderByCouponCommand(order, user, userCoupon);
+
+            given(orderRepository.findByOrderIdAndUser_UserId(order.getOrderId(),
+                user.getUserId())).willReturn(Optional.of(order));
+            given(userCouponRepository.findByIdWithCoupon(userCoupon.getUserCouponId()))
+                .willReturn(Optional.of(userCoupon));
+
+            UpdateOrderByCouponResponse expected = new UpdateOrderByCouponResponse(
+                    order.getPrice() - userCoupon.getCoupon().getDiscount(),
+                    userCoupon.getCoupon().getDiscount()
+            );
+
+            //when
+            UpdateOrderByCouponResponse result =
+                orderService.updateOrderByCoupon(updateOrderByCouponCommand);
+
+            //then
+            assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("findOrderByIdAndUserId 메서드 실행 시")
+    class FindOrderByIdAndUserId {
+        @Test
+        @DisplayName("성공")
+        void success() {
+            // given
+            User user = user();
+            Order order = completedOrder(1L, user);
+            FindOrderDetailResponse expected = orderDetailResponse(order);
+
+            given(orderRepository.findByOrderIdAndUser_UserId(order.getOrderId(), user.getUserId()))
+                    .willReturn(Optional.of(order));
+
+            // when
+            FindOrderDetailResponse result =
+                orderService.findOrderByIdAndUserId(user.getUserId(), order.getOrderId());
+
+            // then
+            assertThat(result).usingRecursiveComparison().isEqualTo(expected);
         }
     }
 
