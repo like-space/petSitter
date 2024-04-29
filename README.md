@@ -6,4 +6,5 @@
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-000000?style=flat&logo=JWT&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white"/> <img src="https://img.shields.io/badge/JUnit5-25A162?style=flat&logo=JUnit5&logoColor=white"/>
 
 ## ERD
-![PETSITTER_ERD](https://github.com/like-space/petSitter/assets/87972707/ac173c6f-afab-490a-a804-b8c1a22656fc)
+![Untitled (2)](https://github.com/like-space/petSitter/assets/77376245/50f2d22f-b83b-4f1b-b86d-b617a541c8bb)
+
